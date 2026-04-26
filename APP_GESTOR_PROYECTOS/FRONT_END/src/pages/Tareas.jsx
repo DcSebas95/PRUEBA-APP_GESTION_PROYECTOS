@@ -29,9 +29,10 @@ const coloresEstado = {
 
 function Tareas() {
     const { id } = useParams();
-    const navigate = useNavigate(); // ← faltaba
+    const navigate = useNavigate();
     const { proyectoActivo } = useApp();
     const [tareas, setTareas] = useState([]);
+    const [totalTareas, setTotalTareas] = useState(0);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [abrirForm, setAbrirForm] = useState(false);
@@ -53,6 +54,11 @@ function Tareas() {
             setTareas(res.data.data);
             setPendientes([]);
             setPagina(0);
+
+            // Solo actualiza el total cuando no hay filtros
+            if (Object.keys(filtrosActuales).length === 0) {
+                setTotalTareas(res.data.total);
+            }
         } catch (err) {
             setError(err.message);
         } finally {
@@ -74,9 +80,7 @@ function Tareas() {
     };
 
     // Cancelar todas las marcaciones
-    const cancelarEliminacion = () => {
-        setPendientes([]);
-    };
+    const cancelarEliminacion = () => setPendientes([]);
 
     // Guardar cambios - eliminar todas las marcadas
     const guardarCambios = async () => {
@@ -118,7 +122,7 @@ function Tareas() {
         return new Date(fecha).toLocaleDateString('es-CO');
     };
 
-    // Tareas de la pagina actual ← corregido
+    // Tareas de la pagina actual
     const tareasPaginadas = tareas.slice(
         pagina * filasPorPagina,
         pagina * filasPorPagina + filasPorPagina
@@ -149,7 +153,12 @@ function Tareas() {
                             {proyectoActivo?.proyecto || 'Tareas'}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            {tareas.length} tarea(s) encontrada(s)
+                            {totalTareas} tarea(s) en total
+                            {tareas.length !== totalTareas && (
+                                <span style={{ color: '#1976d2', marginLeft: 8 }}>
+                                    · {tareas.length} resultado(s) filtrado(s)
+                                </span>
+                            )}
                             {pendientes.length > 0 && (
                                 <span style={{ color: 'red', marginLeft: 8 }}>
                                     · {pendientes.length} marcada(s) para eliminar
@@ -205,9 +214,7 @@ function Tareas() {
                                 {tareasPaginadas.length === 0 ? (
                                     <TableRow>
                                         <TableCell colSpan={8} align="center">
-                                            <Alert severity="info">
-                                                No hay tareas registradas para este proyecto
-                                            </Alert>
+                                            <Alert severity="info">Sin resultados</Alert>
                                         </TableCell>
                                     </TableRow>
                                 ) : (
@@ -339,9 +346,7 @@ function Tareas() {
                         Tienes <strong>{pendientes.length} tarea(s)</strong> marcadas
                         para eliminar que aún no han sido guardadas.
                     </Typography>
-                    <Typography mt={1}>
-                        ¿Qué deseas hacer?
-                    </Typography>
+                    <Typography mt={1}>¿Qué deseas hacer?</Typography>
                 </DialogContent>
                 <DialogActions sx={{ flexDirection: 'column', gap: 1, px: 3, pb: 3 }}>
                     <Button
