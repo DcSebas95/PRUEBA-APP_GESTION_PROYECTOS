@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const tareasRoutes = require('./tareas.routes');
 const {
     obtenerProyectos,
     insertarProyecto,
@@ -154,5 +155,8 @@ router.patch('/:id', actualizarProyecto);
  *         description: Proyecto no encontrado
  */
 router.delete('/:id', eliminarProyecto);
+
+// Rutas anidadas para las tareas
+router.use('/:proyecto_id/tareas', tareasRoutes);
 
 module.exports = router;
