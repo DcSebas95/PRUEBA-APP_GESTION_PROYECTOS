@@ -27,9 +27,21 @@ function ProyectoCard({ proyecto, onVerTareas, onEditar, onEliminar }) {
             <CardContent sx={{ flexGrow: 1 }}>
 
                 {/* Nombre del proyecto */}
-                <Typography variant="h6" fontWeight="bold" gutterBottom noWrap>
-                    {proyecto.proyecto}
-                </Typography>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                    }}
+                >
+                    <Typography variant="h6" fontWeight="bold" noWrap>
+                        {proyecto.proyecto}
+                    </Typography>
+
+                    <Typography variant="h6" fontWeight="bold" noWrap>
+                        ID: {proyecto.proyecto_id}
+                    </Typography>
+                </Box>
 
                 {/* Descripcion */}
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 2, minHeight: 40 }}>
@@ -53,17 +65,26 @@ function ProyectoCard({ proyecto, onVerTareas, onEditar, onEliminar }) {
 
                 {/* Total tareas y fecha */}
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
+
+                    {proyecto.proyecto_creado && (
+                        <Typography variant="caption" color="text.secondary">
+                            Creado: {new Date(proyecto.proyecto_creado).toLocaleDateString('es-CO')}
+                        </Typography>
+                    )}
+                    {proyecto.proyecto_fecha_entrega && (
+                        <Typography variant="caption" color="text.secondary">
+                            Entrega: {new Date(proyecto.proyecto_fecha_entrega).toLocaleDateString('es-CO')}
+                        </Typography>
+                    )}
+
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                         <TaskIcon fontSize="small" color="action" />
                         <Typography variant="body2" color="text.secondary">
                             {proyecto.total_tareas} tarea(s)
                         </Typography>
                     </Box>
-                    {proyecto.proyecto_fecha_entrega && (
-                        <Typography variant="caption" color="text.secondary">
-                            Entrega: {new Date(proyecto.proyecto_fecha_entrega).toLocaleDateString('es-CO')}
-                        </Typography>
-                    )}
+
                 </Box>
 
             </CardContent>
@@ -91,7 +112,7 @@ function ProyectoCard({ proyecto, onVerTareas, onEditar, onEliminar }) {
                     </Tooltip>
                 </Box>
             </CardActions>
-        </Card>
+        </Card >
     );
 }
 

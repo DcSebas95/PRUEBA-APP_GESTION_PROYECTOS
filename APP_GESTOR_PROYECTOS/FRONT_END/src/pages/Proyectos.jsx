@@ -70,9 +70,9 @@ function Proyectos() {
 
     // Guardar proyecto (insert o update)
     const guardarProyecto = async () => {
-        setAbrirForm(false);
+        await cargarProyectos(filtros); // esperar recarga
         setProyectoEditar(null);
-        cargarProyectos(filtros);
+        setAbrirForm(false);
     };
 
     // Aplicar filtros
@@ -146,9 +146,13 @@ function Proyectos() {
 
             {/* Formulario crear/editar */}
             <ProyectoForm
+                key={proyectoEditar?.proyecto_id || 'nuevo'}
                 open={abrirForm}
                 proyecto={proyectoEditar}
-                onClose={() => { setAbrirForm(false); setProyectoEditar(null); }}
+                onClose={() => {
+                    setAbrirForm(false);
+                    setProyectoEditar(null);
+                }}
                 onGuardar={guardarProyecto}
             />
 

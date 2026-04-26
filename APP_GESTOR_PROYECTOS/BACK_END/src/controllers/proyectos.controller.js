@@ -90,8 +90,8 @@ const actualizarProyecto = async (req, res, next) => {
                 nombre || null,
                 descripcion || null,
                 prioridad || null,
-                estado || null,
-                fecha_entrega || null
+                estado ?? null,
+                fecha_entrega === '' ? null : fecha_entrega
             ]
         );
 
