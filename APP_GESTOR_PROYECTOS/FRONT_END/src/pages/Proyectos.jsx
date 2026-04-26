@@ -103,8 +103,7 @@ function Proyectos() {
                 </Button>
             </Box>
 
-            {/* Filtros */}
-            <ProyectoFiltros onFiltrar={aplicarFiltros} />
+
 
             {/* Error */}
             {error && (
