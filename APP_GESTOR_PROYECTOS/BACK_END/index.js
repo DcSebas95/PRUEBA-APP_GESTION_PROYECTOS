@@ -19,7 +19,7 @@ app.use(cors());
 app.use(express.json());
 
 // Swagger
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-gestion', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Rutas
 app.use('/api/proyectos', proyectosRoutes);
@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
     res.json({
         ok: true,
         mensaje: 'API Gestión de Proyectos',
-        docs: `http://localhost:${PORT}/api-docs`
+        docs: `http://localhost:${PORT}/api-gestion`
     });
 });
 
@@ -42,5 +42,5 @@ app.use(errorMiddleware);
 // Iniciar servidor
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-    console.log(`📚 Swagger UI:  \x1b[36mhttp://localhost:${PORT}/api-docs\x1b[0m`);
+    console.log(`📚 Swagger UI:  \x1b[36mhttp://localhost:${PORT}/api-gestion\x1b[0m`);
 });
