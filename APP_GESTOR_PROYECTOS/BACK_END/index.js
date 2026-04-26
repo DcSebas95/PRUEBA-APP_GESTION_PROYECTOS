@@ -42,5 +42,5 @@ app.use(errorMiddleware);
 // Iniciar servidor
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-    console.log(`📚 Swagger docs en http://localhost:${PORT}/api-docs`);
+    console.log(`📚 Swagger UI:  \x1b[36mhttp://localhost:${PORT}/api-docs\x1b[0m`);
 });

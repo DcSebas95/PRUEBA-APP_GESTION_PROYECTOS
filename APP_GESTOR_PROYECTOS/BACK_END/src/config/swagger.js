@@ -17,10 +17,11 @@ const options = {
         tags: [
             { name: 'Proyectos', description: 'Endpoints de proyectos' },
             { name: 'Tareas', description: 'Endpoints de tareas' },
-            { name: 'Catalogos', description: 'Endpoints de catalogos' }
+            { name: 'Estados', description: 'Endpoints de estados' },
+            { name: 'Prioridades', description: 'Endpoints de prioridades' }
         ]
     },
-    apis: ['./src/routes/*.js']  // ← lee los comentarios de las rutas
+    apis: ['./src/routes/*.js']
 };
 
 module.exports = swaggerJsdoc(options);
