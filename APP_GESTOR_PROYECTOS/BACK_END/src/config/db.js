@@ -9,9 +9,14 @@ const pool = new Pool({
     database: process.env.DB_NAME
 });
 
+// Configurar el schema gestion_proyectos
+pool.on('connect', (client) => {
+    client.query('SET search_path TO gestion_proyectos, public');
+});
+
 // Verificar conexion
 pool.connect()
-    .then(() => console.log('Conectado'))
-    .catch(err => console.error('Error conectando ', err));
+    .then(() => console.log('Conectado a PostgreSQL'))
+    .catch(err => console.error('Error conectando a PostgreSQL', err));
 
 module.exports = pool;
