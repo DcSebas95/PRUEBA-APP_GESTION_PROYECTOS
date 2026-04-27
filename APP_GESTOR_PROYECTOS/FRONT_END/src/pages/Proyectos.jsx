@@ -7,7 +7,8 @@ import {
     Typography,
     Button,
     CircularProgress,
-    Alert
+    Alert,
+    Dialog, DialogTitle, DialogContent, DialogActions
 } from '@mui/material';
 import proyectosService from '../services/proyectos.service';
 import { useApp } from '../context/AppContext';
@@ -24,6 +25,8 @@ function Proyectos() {
     const [abrirForm, setAbrirForm] = useState(false);
     const [proyectoEditar, setProyectoEditar] = useState(null);
     const [filtros, setFiltros] = useState({});
+
+    const [proyectoEliminar, setProyectoEliminar] = useState(null); //  proyecto a eliminar
 
     // Cargar proyectos
     const cargarProyectos = async (filtrosActuales = {}) => {
@@ -56,10 +59,17 @@ function Proyectos() {
     };
 
     // Eliminar proyecto
-    const eliminarProyecto = async (id) => {
+    // En vez de eliminar directo, abre el dialog
+    const confirmarEliminar = (proyecto) => {
+        setProyectoEliminar(proyecto);
+    };
+
+    // Esta es la que realmente elimina
+    const eliminarProyecto = async () => {
         try {
             setLoading(true);
-            await proyectosService.eliminar(id);
+            await proyectosService.eliminar(proyectoEliminar.proyecto_id);
+            setProyectoEliminar(null);
             cargarProyectos(filtros);
         } catch (err) {
             setError(err.message);
@@ -137,7 +147,7 @@ function Proyectos() {
                                     proyecto={proyecto}
                                     onVerTareas={() => verTareas(proyecto)}
                                     onEditar={() => editarProyecto(proyecto)}
-                                    onEliminar={() => eliminarProyecto(proyecto.proyecto_id)}
+                                    onEliminar={() => confirmarEliminar(proyecto)}
                                 />
                             </Box>
                         ))
@@ -156,6 +166,45 @@ function Proyectos() {
                 }}
                 onGuardar={guardarProyecto}
             />
+
+            {/* Dialog confirmacion eliminar proyecto */}
+            <Dialog open={Boolean(proyectoEliminar)} maxWidth="xs" fullWidth>
+                <DialogTitle sx={{ color: 'error.main', fontWeight: 'bold' }}>
+                    Eliminar Proyecto
+                </DialogTitle>
+                <DialogContent>
+                    <Typography>
+                        ¿Estás seguro que deseas eliminar el proyecto{' '}
+                        <strong>"{proyectoEliminar?.proyecto}"</strong>?
+                    </Typography>
+                    <Typography mt={1} color="error">
+                        Este proyecto tiene{' '}
+                        <strong>{proyectoEliminar?.total_tareas} tarea(s)</strong> asociada(s)
+                        que también serán eliminadas.
+                    </Typography>
+                    <Typography mt={1} variant="body2" color="text.secondary">
+                        Esta acción no se puede deshacer.
+                    </Typography>
+                </DialogContent>
+                <DialogActions sx={{ px: 3, pb: 2, gap: 1 }}>
+                    <Button
+                        fullWidth
+                        variant="outlined"
+                        color="inherit"
+                        onClick={() => setProyectoEliminar(null)}
+                    >
+                        Cancelar
+                    </Button>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        color="error"
+                        onClick={eliminarProyecto}
+                    >
+                        Sí, eliminar
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
         </Container>
     );
