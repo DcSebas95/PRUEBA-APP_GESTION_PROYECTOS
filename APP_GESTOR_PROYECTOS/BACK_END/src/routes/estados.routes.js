@@ -1,15 +1,15 @@
 const router = require('express').Router();
 const { obtenerEstados } = require('../controllers/estados.controller');
-//swagger para visualizacion de respuestas
+
 /**
  * @swagger
  * /api/estados:
  *   get:
- *     summary: Obtener todas las prioridades
+ *     summary: Obtener todos los estados disponibles
  *     tags: [Estados]
  *     responses:
  *       200:
- *         description: Lista de prioridades
+ *         description: Lista de estados
  *         content:
  *           application/json:
  *             schema:
@@ -22,12 +22,12 @@ const { obtenerEstados } = require('../controllers/estados.controller');
  *                   items:
  *                     type: object
  *                     properties:
- *                       nivel:
+ *                       codigo:
  *                         type: integer
  *                         example: 1
  *                       nombre:
  *                         type: string
- *                         example: Alta
+ *                         example: Nuevo
  */
 router.get('/', obtenerEstados);
 

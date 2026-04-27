@@ -122,7 +122,7 @@ function ProyectoForm({ open, proyecto, onClose, onGuardar }) {
                             {error}
                         </Alert>
                     )}
-                    console.log(res.data.data);
+
                     {/* Nombre */}
                     <TextField
                         label="Nombre *"
@@ -168,7 +168,7 @@ function ProyectoForm({ open, proyecto, onClose, onGuardar }) {
                         value={form.estado}
                         onChange={handleChange}
                         fullWidth
-                        disabled={!proyecto} // ← al crear siempre es Nuevo
+                        disabled={!proyecto} //  al crear siempre es Nuevo
                     >
                         {estados.map(e => (
                             <MenuItem key={e.codigo} value={e.codigo}>

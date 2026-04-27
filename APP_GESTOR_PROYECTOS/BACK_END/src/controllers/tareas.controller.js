@@ -108,7 +108,7 @@ const actualizarTarea = async (req, res, next) => {
                 id,
                 titulo || null,
                 descripcion || null,
-                estado || null,
+                estado ?? null,
                 fecha_limite || null,
                 fecha_entrega || null
             ]
