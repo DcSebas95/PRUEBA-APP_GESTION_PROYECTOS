@@ -83,6 +83,7 @@ function Proyectos() {
 
     return (
         <Container maxWidth="xl" sx={{ py: 4 }}>
+            {/* Filtros */}
 
             {/* Encabezado */}
             <Box sx={{
@@ -103,7 +104,7 @@ function Proyectos() {
                 </Button>
             </Box>
 
-
+            <ProyectoFiltros onFiltrar={aplicarFiltros} />
 
             {/* Error */}
             {error && (
